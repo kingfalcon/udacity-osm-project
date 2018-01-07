@@ -57,7 +57,7 @@ TBD #
 ```
 TBD #
 
-### Top 10 appearing X
+### Number of unique cafes
 
 ```sql
 sqlite> --update with SQL code;
@@ -67,7 +67,7 @@ sqlite> --update with SQL code;
 --update with SQL results;
 ```
 
-### Most popular X
+### Number of unique bars
 
 ```sql
 sqlite> --update with SQL query;
