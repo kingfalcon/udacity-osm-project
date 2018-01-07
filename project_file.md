@@ -4,7 +4,7 @@
 Cambridge, MA, United States
 
 - [http://www.openstreetmap.org/relation/1933745](http://www.openstreetmap.org/relation/1933745)
-- Equivalent OSM data downloaded from Mapzen as custom extract
+- Equivalent OSM data downloaded from Mapzen as a custom extract
  
 I recently lived in the Boston area, including two years spent in Cambridge. Cambridge is the area of Boston I know the best, so I'd like to see how clean its OSM data is. 
 
