@@ -12,12 +12,12 @@ I recently lived in the Boston area, including two years spent in Cambridge. Cam
 ## Problems Encountered in the Map
 After reviewing a small subset of the Cambridge data, I noticed the following main problems in the data set:
 
+- Problem 1: Several of the files had inconsistent names for street type (e.g., Ave, Ave., and Avenue for Avenue). 
+- Problem 2: There were several cases where the state name was very inconsistent (e.g., MA- Massachussets, MA, ma for Massachusetts). 
+- Problem 3: Many zip codes contained nine digits vs. the standard five-digit format. 
+- Problem 4: The city field had several cases where the state was included with the city (e.g., Watertown, MA and Boston, MA), some lowercase city names (e.g., boston), and some addresses in the field (e.g., 2067 Massachusetts Avenue)
 
-- P1
-- P2
-- P3
-- P4
-- P5
+Specifically, I sought to correct problems 1-3. With additional time, I would also like to programmatically correct the issues encountered in Problem 4. 
 
 ### P1
 TBD
