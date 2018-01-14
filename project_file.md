@@ -68,7 +68,20 @@ After a manual review of this data, I decided that I wanted to examine city name
 TBD
 
 ### Problem 3: Inconsistent postal codes (zip codes)
-TBD
+The issues in the postal code field were much simpler to resolve, overall. Similar to previous efforts, I build an list of expected zip codes, iterated through the data, and returned zip codes that were not contained. From my personal experience, I quickly realized that something was wrong: many of the zip codes were not from Cambridge, but rather neighboring communities like Somerville, Medford, and Arlington. However, as I reflected on why this issue may have presented itself, I remembered that I obtained the initial OSM file from Mapzen, which gave me all the data within a rectangular set of coordinates. With this in mind, I realized this is perfectly valid data for the region I was considering and opted to augment the expected list with these new zip codes. 
+
+With that resolved, I generated another dictionary of zip codes and realized there was still the issue of nine-digit zip codes whereas my preferred format is five digits. In order to address this, I created an update function that took the five leftmost digits whenever a zip code had length equal to 10 (a nine-digit zip code plus the interior hyphen): 
+```
+def update_zip(name, mapping):
+    elif len(name) == 10: #If the zip is 9-digit format, take the left-most five digits
+        return name[0:5]
+    else:
+        return name
+```
+
+Although this approach worked quite well on the selected data set, there is a small, but nonzero chance there are other formats of zip codes that are exactly 10 digits, but are not in the format of a nine-digit zip code. However, I did not encounter this issue in the course of my data cleaning, so I accepted this trade-off in favor of keeping this solution very simple. 
+
+With the zip codes cleaning script written, I proceeded with writing a script to iteratively parse the OSM data, call data cleaning functions as appropriate, and write to CSVs. After doing that, I loaded the CSVs into SQL so I could begin querying the data and learning the summary statistics. 
 
 # Data Overview and Additional Ideas
 In this section, I have included some summary statistics about the dataset, the SQL queries used to obtain them, and some additional thoughts about the data.
