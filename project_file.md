@@ -6,7 +6,7 @@ Cambridge, MA, United States
 - [http://www.openstreetmap.org/relation/1933745](http://www.openstreetmap.org/relation/1933745)
 - Equivalent OSM data downloaded from Mapzen as a custom extract
  
-I recently lived in the Boston area, including two years spent in Cambridge. Cambridge is the area of Boston I know the best, so I'd like to see how clean its OSM data is. 
+I recently lived in the Boston area, including two years spent in Cambridge. Cambridge is the area of Boston I know the best, so I'd like to assess the quality of its OSM data. 
 
 
 ## Problems Encountered in the Map
@@ -100,6 +100,46 @@ def update_zip(name, mapping):
 Although this approach worked quite well on the selected data set, there is a small, but nonzero chance there are other formats of zip codes that are exactly 10 digits, but are not in the format of a nine-digit zip code. However, I did not encounter this issue in the course of my data cleaning, so I accepted this trade-off in favor of keeping this solution very simple. 
 
 With the zip codes cleaning script written, I proceeded with writing a script to iteratively parse the OSM data, call data cleaning functions as appropriate, and write to CSVs. After doing that, I loaded the CSVs into SQL so I could begin querying the data and learning the summary statistics. 
+
+### Converting the data into CSVs
+Once I had written scripts to handle each of the three issues (street_names.py, state.py, zip_codes.py), I proceeded to write a script to iteratively parse the data, call the update functions, and output the results into a series of CSVs. To do this, I first imported a series of modules to help with this goal, including the three scripts I had written:
+```
+import state
+import zip_code
+import street_names
+import csv
+import codecs
+import pprint
+import re
+import xml.etree.cElementTree as ET
+import cerberus
+import schema
+```
+Given that all of the fields I corrected are tags, I cleaned the data as I was iterating through the tags. Here's an example of what I did for `node_tags`, a process I followed for `ways_tags` as well: 
+```
+if m:
+    split_key = re.split(':',j.get('k'),maxsplit=1)
+    tags_dict['id'] = node_attribs['id']
+    tags_dict['key'] = split_key[1]
+    if split_key[1] == 'state':
+        tags_dict['value'] = state.update_state_name(j.get('v'))
+    elif split_key[1] == 'street':
+        tags_dict['value'] = street_names.update_street_name(j.get('v'))
+    elif split_key[1] == 'postcode':
+        tags_dict['value'] = zip_code.update_zip(j.get('v'))
+    else: 
+        tags_dict['value'] = j.get('v')
+```
+After implementing all the cleaning scripts, I moved onto validation: 
+```
+if __name__ == '__main__':
+    # Note: Validation is ~ 10X slower. For the project consider using a small
+    # sample of the map when validating.
+    process_map(OSM_PATH, validate=True)
+```
+Unfortunately, after about 20 minutes of runtime, the validator spit out an error saying that one of my 'values' contained a null, which was not permitted according to the schema that I loaded for the data set. 
+
+
 
 # Data Overview and Additional Ideas
 In this section, I have included some summary statistics about the dataset, the SQL queries used to obtain them, and some additional thoughts about the data.
