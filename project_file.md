@@ -137,9 +137,7 @@ if __name__ == '__main__':
     # sample of the map when validating.
     process_map(OSM_PATH, validate=True)
 ```
-Unfortunately, after running for ~20 minutes, the validator spit out an error saying that one of my 'values' contained a null, which was not permitted according to the schema that I loaded for the data set. Specifically, the error was occuring for the data point with id equal to '4913173622'. After investigating the source of the problem, I realized that the raw street name included a trailing space.   
-
-
+Unfortunately, after running for ~20 minutes, the validator spit out an error saying that one of my 'values' contained a null, which was not permitted according to the schema that I loaded for the data set. Specifically, the error was occuring for the data point with id equal to '4913173622'. After investigating the source of the problem, I realized that the raw street name included a trailing space, and my street_name.py script was not properly designed to handle this edge case. As a result, I updated my script and the data set validated successfully. 
 
 # Data Overview and Additional Ideas
 In this section, I have included some summary statistics about the dataset, the SQL queries used to obtain them, and some additional thoughts about the data.
