@@ -13,7 +13,7 @@ I recently lived in the Boston area, including two years spent in Cambridge. Cam
 After reviewing a small subset of the Cambridge data, I noticed the following main problems in the data set:
 
 - **Problem 1:** Several of the files had inconsistent names for street type (e.g., Ave, Ave., and Avenue for Avenue). 
-- **Problem 2:** There were several cases where the city name was very inconsistent (e.g., MA- Massachussets, MA, ma for Massachusetts). 
+- **Problem 2:** There were several cases where the state name was very inconsistent (e.g., MA- Massachussets, MA, ma for Massachusetts). 
 - **Problem 3:** Many zip codes contained nine digits vs. the standard five-digit format. 
 - **Problem 4:** The city field had several cases where the state was included with the city (e.g., Watertown, MA and Boston, MA), some lowercase city names (e.g., boston), and some addresses in the field (e.g., 2067 Massachusetts Avenue)
 
@@ -64,8 +64,26 @@ print(k_df.sort_values(by=0,ascending=False).head(50))
 ```
 After a manual review of this data, I decided that I wanted to examine city name and postal code, as they were well-represented in the smaller data set (409 and 370 occurrences, respectively). 
 
-### Problem 2: Inconsistent city names
-TBD
+### Problem 2: Inconsistent state names
+To address this issue, I followed a very similar path as for (1): First I created a list of expected values and a mapping dictionary I'd use to fix any issues. After doing that, I reviewed a dictionary of "bad" values so I could know how to proceed. After concluding that these values were not what I wanted in my final data set, I updated my mapping table:
+
+```
+mapping = { "MA- MASSACHUSETTS": "Massachusetts",
+            "MA": "Massachusetts",
+            "ma":"Massachusetts",
+          }
+```
+With this complete, I then wrote an update function that would sub in the desired name when the bad name was encountered:
+
+```
+def update_state_name(name, mapping):
+    if name in mapping_keys: #If the bad key is in the mapping dictionary, then perform a substitute, otherwise leave as-is
+        good = mapping[name]
+        return good
+    else:
+        return name
+```
+Fortunately, this was sufficient to address the issues. One interesting thing to note relative to Problem 1 is that I did not need to use the regular expression module. In this case, the entire field contained the value of interest (city name) whereas previously we were only looking at the last word in a given string. As a result, this meant we could do direct matches rather than use regular expression to search within the contents of the string. 
 
 ### Problem 3: Inconsistent postal codes (zip codes)
 The issues in the postal code field were much simpler to resolve, overall. Similar to previous efforts, I build an list of expected zip codes, iterated through the data, and returned zip codes that were not contained. From my personal experience, I quickly realized that something was wrong: many of the zip codes were not from Cambridge, but rather neighboring communities like Somerville, Medford, and Arlington. However, as I reflected on why this issue may have presented itself, I remembered that I obtained the initial OSM file from Mapzen, which gave me all the data within a rectangular set of coordinates. With this in mind, I realized this is perfectly valid data for the region I was considering and opted to augment the expected list with these new zip codes. 
