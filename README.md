@@ -1,5 +1,7 @@
 # udacity-osm-project
-Summary of included files: 
+This repo was created to house my intermediate and final work product for the Open Street Map (OSM) project as part of Udacity's Data Analyst Nanodegree program. In this project, I download OSM data, audited several fields, iteratively cleaned the data while parsing the OSM into to five CSVs, imported the CSVs to SQL tables, and used SQL to query the data. 
+
+This repo includes the following files: 
 - **README.md:** This file, which contains a summary of files used for this project.
 - **project_file.md:** The final write-up documenting my data wrangling process and findings. 
 - **street_names.py:** The script used to clean the street names.
