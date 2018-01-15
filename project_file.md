@@ -146,56 +146,77 @@ In this section, I have included some summary statistics about the dataset, the 
 ```
 cambridge.osm ......... 97 MB
 cambridge.db .......... 77 MB
-nodes.csv ............. 45 MB
-nodes_tags.csv ........ 3 MB
-ways.csv .............. 6 MB
-ways_tags.csv ......... 8 MB
-ways_nodes.cv ......... 13 MB  
+nodes.csv ............. 34 MB
+nodes_tags.csv ........ 2 MB
+ways.csv .............. 5 MB
+ways_tags.csv ......... 6 MB
+ways_nodes.cv ......... 12 MB  
 ```  
 
 ### Number of nodes
 ```sql
-sqlite> select count(distinct id)
-   ...> from nodes;
+select count(distinct id) 
+from nodes;
 ```
-437290
+437289
 
 ### Number of ways
 ```sql
-sqlite> select count(distinct id)
-   ...> from ways;
+select count(distinct id) 
+from ways;
 ```
-75107
+75106
 
 ### Number of unique users
 ```sql
-select count(*)
-   ...> from
-   ...> (select distinct uid from nodes
-   ...> union
-   ...> select distinct uid from ways)
-   ...> ;;
+select count(distinct uid) 
+from 
+(select distinct uid from nodes 
+union 
+select distinct uid from ways) 
+;
 ```
-977
+976
 
 ### Number of unique cafes
 
 ```sql
-sqlite> --update with SQL code;
+select count(distinct id) 
+from nodes_tags 
+where value = 'cafe'
 ```
-
-```sql
---update with SQL results;
-```
+177
 
 ### Number of unique bars
 
 ```sql
-sqlite> --update with SQL query;
+select count(distinct id) 
+from nodes_tags 
+where value = 'bar'
 ```
+44
+
+### Top appearing amenities
 
 ```sql
---update with sql results
+select value, count(distinct id) 
+from nodes_tags 
+where key = 'amenity' 
+group by 1 
+order by 2 desc 
+limit 10;
+```
+```
+bench,504
+restaurant,458
+bicycle_parking,232
+cafe,177
+school,145
+library,136
+fast_food,122
+place_of_worship,95
+bicycle_rental,86
+waste_basket,81
 ```
 
 # Conclusion
