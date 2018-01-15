@@ -144,32 +144,39 @@ In this section, I have included some summary statistics about the dataset, the 
 
 ### File sizes
 ```
-cambridge.osm ......... TBD MB
-cambridge.db .......... TBD MB
-nodes.csv ............. TBD MB
-nodes_tags.csv ........ TBD MB
-ways.csv .............. TBD MB
-ways_tags.csv ......... TBD MB
-ways_nodes.cv ......... TBD MB  
+cambridge.osm ......... 97 MB
+cambridge.db .......... 77 MB
+nodes.csv ............. 45 MB
+nodes_tags.csv ........ 3 MB
+ways.csv .............. 6 MB
+ways_tags.csv ......... 8 MB
+ways_nodes.cv ......... 13 MB  
 ```  
 
 ### Number of nodes
+```sql
+sqlite> select count(distinct id)
+   ...> from nodes;
 ```
-sqlite> --update with SQL code;
-```
-TBD #
+437290
 
 ### Number of ways
+```sql
+sqlite> select count(distinct id)
+   ...> from ways;
 ```
-sqlite> --update with SQL code;
-```
-TBD #
+75107
 
 ### Number of unique users
 ```sql
---update with SQL code;
+select count(*)
+   ...> from
+   ...> (select distinct uid from nodes
+   ...> union
+   ...> select distinct uid from ways)
+   ...> ;;
 ```
-TBD #
+977
 
 ### Number of unique cafes
 
