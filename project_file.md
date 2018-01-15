@@ -156,14 +156,16 @@ ways_nodes.cv ......... 12 MB
 ### Number of nodes
 ```sql
 select count(distinct id) 
-from nodes;
+from nodes 
+;
 ```
 437289
 
 ### Number of ways
 ```sql
 select count(distinct id) 
-from ways;
+from ways 
+;
 ```
 75106
 
@@ -183,7 +185,8 @@ select distinct uid from ways)
 ```sql
 select count(distinct id) 
 from nodes_tags 
-where value = 'cafe'
+where value = 'cafe' 
+;
 ```
 177
 
@@ -192,11 +195,12 @@ where value = 'cafe'
 ```sql
 select count(distinct id) 
 from nodes_tags 
-where value = 'bar'
+where value = 'bar' 
+;
 ```
 44
 
-### Top appearing amenities
+### Top 10 amenities
 
 ```sql
 select value, count(distinct id) 
@@ -218,6 +222,62 @@ place_of_worship,95
 bicycle_rental,86
 waste_basket,81
 ```
+
+
+### Top 10 node types
+
+```sql
+select b.type, count(distinct a.id) 
+from nodes a 
+inner join nodes_tags b 
+on a.id = b.id 
+group by 1 
+order by 2 desc 
+limit 10;
+```
+```
+regular,16205
+addr,1730
+gnis,629
+source,126
+massgis,97
+fire_hydrant,64
+surveillance,62
+camera,58
+contact,57
+name,48
+```
+
+### Top 10 users who have entered in addresses in this data set
+```sql
+with addresses as ( 
+select * 
+from nodes a 
+inner join nodes_tags b 
+on a.id = b.id 
+where b.type = 'addr' 
+) 
+
+select user, count(distinct id) as num_addresses
+from addresses 
+group by 1  
+order by 2 desc 
+limit 10;
+```
+
+```
+mterry,212
+"Peter Dobratz",151
+amillar,141
+probiscus,104
+wheelmap_visitor,68
+kalanz,63
+FTA,60
+MDIV,37
+morganwahl,35
+sankeytm,31
+```
+Mterry has contributed the most addresses with 212!
 
 # Conclusion
 TBD
