@@ -156,16 +156,14 @@ ways_nodes.cv ......... 12 MB
 ### Number of nodes
 ```sql
 select count(distinct id) 
-from nodes 
-;
+from nodes;
 ```
 437289
 
 ### Number of ways
 ```sql
 select count(distinct id) 
-from ways 
-;
+from ways;
 ```
 75106
 
@@ -175,8 +173,7 @@ select count(distinct uid)
 from 
 (select distinct uid from nodes 
 union 
-select distinct uid from ways) 
-;
+select distinct uid from ways);
 ```
 976
 
@@ -185,8 +182,7 @@ select distinct uid from ways)
 ```sql
 select count(distinct id) 
 from nodes_tags 
-where value = 'cafe' 
-;
+where value = 'cafe';
 ```
 177
 
@@ -195,8 +191,7 @@ where value = 'cafe'
 ```sql
 select count(distinct id) 
 from nodes_tags 
-where value = 'bar' 
-;
+where value = 'bar';
 ```
 44
 
@@ -280,4 +275,4 @@ sankeytm,31
 Mterry has contributed the most addresses with 212!
 
 # Conclusion
-TBD
+As a result of going through this data, I cleaned up a number of things, including inconsistent street types, inconsistent state names, and inconsistent postal codes. Furthermore, while cleaning these three fields, I also observed that the city field could use data auditing and cleaning as well if I had additional time. Finally, I iteratively wrote the cleaned data to CSVs, loaded the CSVs into a SQL database, and used a variety of queries to understand the structure and nature of the data set. Additional work I would like to do includes analyzing how the distribution of amenity types has trended over time to test my hypothesis that the number of cafes and restaurants in Cambridge has increased over the last few years. 
