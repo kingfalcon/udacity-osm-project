@@ -7,7 +7,6 @@ Summary of included files:
 - **zip_code.py** The script used to clean zip codes.
 - **convert_xml_to_sql.py:** The script that calls the above-mentioned functions to parse, clean the data, and output as CSVs.
 - **schema.py:** The schema used for my SQL database. 
-- **sample.osm:** Truncated version of the OSM I used, including every 10th top-level element
 
 Additionally, during the course of completing this project, I consulted the following sources:
 - The Udacity Data Wrangling course, especially the case study on working with SQL
